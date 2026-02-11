@@ -40,7 +40,7 @@ STOCK_INIT = 250 # Initial medicine stock for each medicine type
 N_COUNTERS = 3 
 
 MED_THRESH = 100
-RESTOCK_CHECK_INTERVAL = 30
+CHECK_INTERVAL = 30
 
 # Time constants
 SIM_HOURS = 24
@@ -106,7 +106,7 @@ class Experiment:
         choice_p = CHOICE_P,
         travel_time = TRAVEL_TIME,
         travel_noise = TRAVEL_NOISE,
-        restock_check_interval = RESTOCK_CHECK_INTERVAL
+        check_interval = CHECK_INTERVAL
     ):
         self.seed = seed
         self.n_rng_streams = n_rng_streams
@@ -123,7 +123,7 @@ class Experiment:
         self.choice_p = choice_p
         self.travel_time = travel_time
         self.travel_noise = travel_noise
-        self.restock_check_interval = restock_check_interval
+        self.check_interval = check_interval
         
         self.counters = None
         self.otc_stock = None
@@ -212,10 +212,10 @@ def restock(med_info, env, args):
         log(f"{env.now:.2f}: Restocked {med_info['quantity']} prescription medicines.")
        
         
-def restock_check(env, args):
+def check(env, args):
     """Continuously monitor and request medicine restocking.
     
-    Checks inventory levels every `args.restock_check_interval` minutes and initiates restock
+    Checks inventory levels every `args.check_interval` minutes and initiates restock
     processes when inventory falls below the threshold.
     
     Parameters
@@ -242,7 +242,7 @@ def restock_check(env, args):
             log(f"{env.now:.2f}: Restock requested for Prescriptions!")
             yield env.process(restock(med_info, env, args))
             
-        yield env.timeout(args.restock_check_interval) 
+        yield env.timeout(args.check_interval) 
         
         
 def customer(id, patience, med_info, env, args):
@@ -375,7 +375,7 @@ def run(experiment, rep=SEED, stock_init=STOCK_INIT, warmup_time=WARMUP_TIME, si
     experiment.prescription_stock = simpy.Container(env, stock_init, stock_init)
     experiment.counters = simpy.Resource(env, capacity=experiment.n_counters)
     env.process(generate_customers(env, experiment))
-    env.process(restock_check(env, experiment))
+    env.process(check(env, experiment))
     env.process(warmup(warmup_time, env, experiment))
     env.run(until=warmup_time+sim_time)
     

@@ -2,7 +2,7 @@ import streamlit as st
 from utils.io import read_file
 from utils.plotting import create_user_controlled_hist
 from utils.name_mappings import get_name_mappings
-from pharmacy_sim import (
+from pharmacy_model import (
     Experiment,
     n_runs
 )
