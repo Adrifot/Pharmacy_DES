@@ -1,4 +1,2 @@
 ## Scenario
 We have a pharmacy with a certain number of pharmacists servicing customers. Customers come in at an exponentially-modelled arrival rate. Each customer has a patience and some medicine they want to buy. The pharmacy has a stock. If the stock is below a threshold, the pharmacy places a restock order and a truck with the needed medicine gets sent from the warehouse.
-
-## Experiment Parameters
