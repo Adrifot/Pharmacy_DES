@@ -1,4 +1,5 @@
 import pandas as pd
+from pharmacy_sim import Experiment
 
 def get_example_csv(filename="example.csv"):
     """
@@ -33,3 +34,32 @@ def get_example_csv(filename="example.csv"):
     df_experiments["check_interval"] = check_interval
 
     return df_experiments
+
+
+def create_experiments(df_experiments):
+    '''
+    Returns dictionary of Experiment objects based on contents of a dataframe
+
+    Params:
+    ------
+    df_experiments: pandas.DataFrame
+        Dataframe of experiments. First two columns are id, name followed by 
+        variable names.  No fixed width.
+
+    Returns:
+    --------
+    dict
+    '''
+    experiments = {}
+    exp_dict = df_experiments[df_experiments.columns[1:]].T.to_dict()
+    exp_names = df_experiments[df_experiments.columns[0]].T.to_list()
+    
+    print(exp_dict)
+    print(exp_names)
+
+    # loop through params and create Experiment objects.
+    for name, params in zip(exp_names, exp_dict.values()):
+        print(name)
+        experiments[name] = Experiment(**params)
+    
+    return experiments
