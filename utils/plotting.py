@@ -154,35 +154,7 @@ def experiment_summary_frame(experiment_results):
     summary.columns = columns
     return summary
 
-def create_example_csv(filename="example_experiments.csv"):
-    """
-    Create an example CSV file to use in tutorial.
-    This creates 4 experiments that varys
-    n_operators, and mean_iat.
 
-    Params:
-    ------
-    filename: str, optional (default='example_experiments.csv')
-        The name and path to the CSV file.
-    """
-    # each column is defined as a seperate list
-    names = ["base", "op+1", "high_demand", "combination"]
-    operators = [13, 14, 13, 14]
-    nurses = [9, 9, 9, 9]
-    mean_iat = [0.6, 0.6, 0.55, 0.55]
-    chance_callback = [0.4, 0.4, 0.4, 0.4]
-
-    # empty dataframe
-    df_experiments = pd.DataFrame()
-
-    # create new columns from lists
-    df_experiments["experiment"] = names
-    df_experiments["n_operators"] = operators
-    df_experiments["n_nurses"] = nurses
-    df_experiments["mean_iat"] = mean_iat
-    df_experiments["chance_callback"] = chance_callback
-
-    return df_experiments
 
 
 
