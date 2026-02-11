@@ -1,5 +1,5 @@
 import pandas as pd
-from pharmacy_sim import Experiment
+from pharmacy_model import Experiment
 
 def get_example_csv(filename="example.csv"):
     """
