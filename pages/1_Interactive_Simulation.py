@@ -1,6 +1,6 @@
 import streamlit as st
 from utils.io import read_file
-from utils.plotting import create_user_controlled_hist
+from utils.plotting import get_plotly_hists
 from utils.name_mappings import get_name_mappings
 from pharmacy_model import (
     Experiment,
@@ -53,12 +53,13 @@ if st.button("Run Simulation"):
         
     st.success("Simulation complete.")
 
-    col1, col2 = st.columns(2)
+    # col1, col2 = st.columns(2)
     
-    with col1.expander("Tabular Results", expanded=True):
+    with st.expander("Tabular Results", expanded=True):
         st.dataframe(results.describe().round(2).T)
-        
-    with col2.expander("Histogram", expanded=True):
-        fig = create_user_controlled_hist(results, 
-                                      name_mappings=get_name_mappings())
-        st.plotly_chart(fig)
+  
+    
+    hists = get_plotly_hists(results)
+    for name, fig in hists.items():
+        with st.expander(name, expanded=False):
+            st.plotly_chart(fig)
